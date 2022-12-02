@@ -1,0 +1,20 @@
+body { 
+    margin: 0; 
+ 
+}
+
+h1{
+    text-align: center;
+    background-color: aquamarine;
+}
+
+#flex-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#container{
+    border: 1px solid gray;
+    display: inline-block;
+}
