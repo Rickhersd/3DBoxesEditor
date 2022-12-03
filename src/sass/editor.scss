@@ -16,8 +16,7 @@
       padding: 1rem 0rem;
     }
   }
-
-
+  
   &__container{
     width: 100%;
     display: grid;
@@ -51,6 +50,16 @@
 @media only screen and (max-width: 600px) {
     
   .editor{
+
+    &__container{
+      width: 100%;
+      display: flex;
+      gap: 1rem;
+    }
+
+    &__canvas{
+      grid-area: none;
+    }
 
     &__designTools{
       display: none;

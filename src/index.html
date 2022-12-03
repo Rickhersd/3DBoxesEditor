@@ -56,23 +56,41 @@
           <div id="container" class="editor__canvas">
             
           </div>
+          <button class="editor-mobile__openBtn">Abrir editor3D</button>
           
           <div class="editor-mobile__UI">
-            <button class="editor-mobile__openBtn">Abrir editor3D</button>
             <button class="editor-mobile__exitBtn"></button>
-            <div class="editor-mobile__toogle">
-              <button class="editor-mobile__toogle-3D editor-mobile__toogle-btn">3D</button>
-              <button class="editor-mobile__toogle-Inside editor-mobile__toogle-btn">Adentro</button>
-              <button class="editor-mobile__toogle-Outside editor-mobile__toogle-btn"> Afuera</button>
-            </div>
-            <div class="editor-mobile__toolbar">
-              <ul class="editor-mobile__toolbar-list">
-                <li class="editor-mobile__toolbar-item">Graficos Cargados</li>
-                <li class="editor-mobile__toolbar-item">Graficos Estandares</li>
-                <li class="editor-mobile__toolbar-item">Text</li>
-                <li class="editor-mobile__toolbar-item">Color</li>
-                <li class="editor-mobile__toolbar-item">color de panel</li>
-              </ul> 
+            <div class="editor-mobile__bottom">
+              <div class="editor-mobile__toogle">
+                <button class="editor-mobile__toogle-3D editor-mobile__toogle-btn">3D</button>
+                <button class="editor-mobile__toogle-Inside editor-mobile__toogle-btn">Adentro</button>
+                <button class="editor-mobile__toogle-Outside editor-mobile__toogle-btn"> Afuera</button>
+              </div>
+              <div class="editor-mobile__tools">
+                <div class="controls">
+                  <div id="tray-colorTool" class="tray">
+                    <div id="traySlide-colorTool" class="tray__slide"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="editor-mobile__toolbar">
+                <ul class="editor-mobile__toolbar-list">
+                  <li class="editor-mobile__toolbar-item">
+                    <button id="loadedGraficsToolBtn">Graficos Cargados</button>
+                  </li>
+                  <li class="editor-mobile__toolbar-item">
+                    <button id="estadarGraficsToolBtn">Graficos Estadar</button>
+                  </li>
+                  <li class="editor-mobile__toolbar-item">
+                    <button id="textToolBtn">Texto</button>
+                  </li>
+                  <li class="editor-mobile__toolbar-item">
+                    <button id="colorToolBtn">Color</button>
+                    
+                  </li>
+                  <li class="editor-mobile__toolbar-item">color de panel</li>
+                </ul> 
+              </div>
             </div>
           </div>
 
