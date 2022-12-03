@@ -1,0 +1,89 @@
+.footer{
+  display: grid;
+  width: 100%;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: rgba(245, 166, 35, 1);
+
+  &__container{
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: min(90%, 1200px);
+  }
+
+  &__logo{
+    grid-area: rightside;
+  };
+
+  
+  &__links{
+
+    grid-area: leftside;
+    display: flex;  
+    gap: 2rem;  
+  
+    &-polAndCon{
+     
+    };
+  
+    &-services{
+ 
+    };
+  
+    &-help{
+      
+    }
+  }
+
+  &__item-title{
+    color: white;
+    font-size: 1.6rem;
+    margin: 0px;
+  }
+
+  &__item-list{
+    margin-top: 0.6rem;
+    list-style-type: none;
+    list-style-position: outside;
+    padding: 0;
+  }
+
+  &__item-link{
+    font-size: 1.3rem;
+    margin: 0.6rem 0rem;
+
+    
+    & a:visited, & a:link, & a:active{
+        color:white;
+        text-decoration: none;
+    }
+  }
+}
+
+.footer__item-title{
+    
+}
+
+@media only screen and (max-width: 600px) {
+    
+  .footer{
+
+    &__container{
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      width: min(90%, 1200px);
+    }
+    
+    &__links{
+      display: flex; 
+      flex-direction: column;
+      gap: 2rem; 
+    }
+  }
+}

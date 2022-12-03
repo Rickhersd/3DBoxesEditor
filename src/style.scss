@@ -1,0 +1,45 @@
+@use './sass/library.scss';
+
+@import './sass/navbar.scss';
+@import './sass/footer.scss';
+@import './sass/editor.scss';
+@import './sass/main.scss';
+@import './sass/editorMobile.scss';
+
+
+
+body { 
+    margin: 0px;
+    padding: 0px; 
+    box-sizing: content-box; 
+    color: library.$color__font-gray;
+}
+
+
+
+#container{
+    width: 800px;
+    height: 600px;
+    display: inline-block;
+}
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+    
+    #container{
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100vh;
+        translate: 100% 0px;
+        transition: translate 0.3s ease ;
+    }
+}
+
+.show-3DEditorMobile{
+    translate: 0% 0px !important;
+}

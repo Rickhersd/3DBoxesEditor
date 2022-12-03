@@ -9,7 +9,7 @@ import {
 import { GLTFLoader } from 'three/src/loaders/GLTFLoader.js';
 import {OrbitControls} from 'three/src/controllers/OrbitControls.js';
 
-import "./style.css"
+import "./style.scss"
 
 const scene = new threeScene()
 
@@ -17,16 +17,14 @@ console.log(scene);
 const bgColor = new threeColor( 0xA0A0A0 );
 scene.background = bgColor;
 
-
-
-
 const lightAmb = new threeAmbientLight( 0x404040, 10 ); // soft white light
 scene.add( lightAmb );
 
+const container = document.getElementById('container');
 
 const camera = new threePerspectiveCamera(
     75,
-    window.innerWidth / window.innerHeight,
+    container.clientWidth / container.clientHeight,
     0.1,
     1000
 )
@@ -36,22 +34,24 @@ const renderer = new threeWebGlRenderer()
 renderer.physicallyCorrectLights = true
 renderer.shadowMap.enabled = true
 renderer.outputEncoding = threesRGBEncoding;
-renderer.setSize(window.innerWidth/1.5, window.innerHeight/1.5)
 
-const container = document.getElementById('container');
+renderer.setSize(container.clientWidth, container.clientHeight)
+
+
 container.appendChild(renderer.domElement)
 
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.enableDamping = true
 
+console.log('holamundo');
+
 const loader = new GLTFLoader()
-loader.load( "../Models/cubo.glb",
+loader.load( "./Models/cubo.glb",
     function (gltf) {
         console.log(gltf)
 
         gltf.scene.traverse(function (child) {
             if ((child.isMesh)) {
-                console.log('hola')
                 const m = child;
                 m.receiveShadow = true
                 m.castShadow = true
@@ -67,11 +67,22 @@ loader.load( "../Models/cubo.glb",
     }
 )
 
+const openBtn = document.querySelector('.editor-mobile__openBtn');
+const exitBtn = document.querySelector('.editor-mobile__exitBtn');
+
+exitBtn.addEventListener('click', () => {
+    container.classList.remove('show-3DEditorMobile');
+})
+openBtn.addEventListener('click', () => {
+    container.classList.add('show-3DEditorMobile');
+})
+
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
-    camera.aspect = (window.innerWidth / 1.5) / (window.innerHeight / 1.5)
+
+    camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix()
-    renderer.setSize(window.innerWidth / 1.5, window.innerHeight /1.5)
+    renderer.setSize(container.clientWidth, container.clientHeight)
     render()
 }
 

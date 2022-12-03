@@ -1,0 +1,63 @@
+@use './library.scss';
+
+.editor{
+
+  &__designTools{
+    grid-area: designTools;
+    border: 1px solid library.$color__light-gray;
+    border-radius: 20px;
+    overflow: hidden;
+
+    &-header{
+      text-align: center;
+      color: white;
+      background-color: library.$color__orange;
+      font-weight: 600;
+      padding: 1rem 0rem;
+    }
+  }
+
+
+  &__container{
+    width: 100%;
+    display: grid;
+    grid-template-areas: 
+    "designTools canvas orderDetails";
+    grid-template-columns: 180px auto 180px;  
+    gap: 1rem;
+  }
+
+  &__canvas{
+    grid-area: canvas;
+  }
+
+
+  &__orderDetails{
+    grid-area: orderDetails;
+    border: 1px solid library.$color__light-gray;
+    border-radius: 20px;
+    overflow: hidden;
+
+    &-header{
+      text-align: center;
+      color: white;
+      background-color: library.$color__orange;
+      font-weight: 600;
+      padding: 1rem 0rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+    
+  .editor{
+
+    &__designTools{
+      display: none;
+    }
+
+    &__container{
+      flex-direction: column; 
+    }
+  }
+}

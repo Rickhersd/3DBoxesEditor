@@ -6,10 +6,16 @@
   },
   "name": "ThreeJsPractice",
   "version": "1.0.0",
+  "repository": {
+    "url": "git+https://github.com/Rickhersd/3DBoxesEditor.git"
+  },
   "main": "app.js",
   "devDependencies": {
     "css-loader": "^6.7.2",
+    "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "sass": "^1.56.1",
+    "sass-loader": "^13.2.0",
     "style-loader": "^3.3.1",
     "webpack": "^5.75.0",
     "webpack-bundle-analyzer": "^4.7.0",
@@ -19,7 +25,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "analizer": "webpack -p",
     "build": "webpack --config webpack.config.js",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "",

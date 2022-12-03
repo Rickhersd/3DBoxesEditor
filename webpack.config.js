@@ -17,14 +17,26 @@ module.exports = {
           'style-loader',
           'css-loader'
         ]
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          "sass-loader",
+        ]
       }
     ]
+
   },
   devtool: 'inline-source-map',
   plugins: [
     //new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Development',
+      template: './src/index.html',
+      title: '3DBoxesEditor-Development',
+      filename: "index.html",
+      inject: "body",
      }),
   ],
 };

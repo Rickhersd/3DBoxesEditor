@@ -1,0 +1,12 @@
+@use './library.scss';
+
+.main{
+  width: min(90%, 1200px);
+  margin: 3rem auto;
+
+  &__selected-box{
+    color: library.$color__orange;
+    font-family: library.$font__Open;
+    text-align: center;
+  }
+}
