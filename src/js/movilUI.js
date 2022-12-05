@@ -3,9 +3,11 @@ export default class MovilUI{
   constructor(){};
 
   static CanvasCont = document.getElementById('container');
+  #canvasCont = document.getElementById('container');
   UImobile = document.querySelector('.editor-mobile__UI');
   exitBtn;
   openBtn;
+
 
   setExitBtn(btn){
     this.exitBtn = btn;
@@ -22,12 +24,12 @@ export default class MovilUI{
   };
 
   #displayUI(){
-    container.classList.add('show-3DEditorMobile');
-    UImobile.style.display = 'block';
+    this.#canvasCont.classList.add('show-3DEditorMobile');
+    this.UImobile.style.display = 'block';
   }
 
   #hideUI(){
-    container.classList.remove('show-3DEditorMobile');
-    UImobile.style.display = 'none';
+    this.#canvasCont.classList.remove('show-3DEditorMobile');
+    this.UImobile.style.display = 'none';
   }
 }

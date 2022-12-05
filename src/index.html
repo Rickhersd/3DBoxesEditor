@@ -47,15 +47,65 @@
             <ul class="editor__designTools-list">
               <li class="editor__designTools-item">Graficos Cargados</li>
               <li class="editor__designTools-item">Graficos Estandar</li>
-              <li class="editor__designTools-item">Anadir texto</li>
+              <li class="editor__designTools-item">
+                <div>text</div>
+                <form id="textTool-form">
+                  <input id="textTool-input-text" type="text">
+                  <label for="font-family">Fuente:</label>
+                  <select name="font-family" id="textTool-select-family">
+                      <option value="Times New Roman">Times New Roman</option>
+                      <option value="Arial">Arial</option>
+                      <option value="Helvetica">Helvetica</option>
+                      <option value="Calibri">Calibri</option>
+                      <option value="Verdada">Verdana</option>
+                  </select>
+                  <label for="font-size">Tamano de fuente:</label>
+                  <select name="font-size" id="textTool-select-size">
+                      <option value="1px">1px</option>
+                      <option value="2px">2px</option>
+                      <option value="3px">3px</option>
+                      <option value="4px">4px</option>
+                      <option value="6px">6px</option>
+                      <option value="8px">8px</option>
+                      <option value="10px">10px</option>
+                      <option value="12px">12px</option>
+                      <option value="16px">16px</option>
+                      <option value="18px">18px</option>
+                      <option value="20px">20px</option>
+                      <option value="24px">24px</option>
+                      <option value="28px">28px</option>
+                      <option value="32px">32px</option>
+                      <option value="36px">36px</option>
+                  </select>
+                  <input type="checkbox" id="textTool-checkbox-italic" name="isItalic" value="true">
+                  <label for="isItalic"> Italic</label><br>
+                </form>
+                <button id="add-text">Anadir texto</button>
+                <button id="draw-text">Dibujar texto</button>
+                <button id="render-box">Renderizar</button>
+              </li>
+
               <li class="editor__designTools-item">Ajuste de color</li>
               <li class="editor__designTools-item">Color de panel</li>
             </ul>
           </div>
 
-          <div id="container" class="editor__canvas">
+          <div id="container" class="editor__canvas-cont">
+
+            <div id="editor-insideBoxCont" class="editor__canvas-inside-cont">
+              <canvas id="editor-insideBox"class="editor__canvas-inside" >
+              
+              </canvas>
+            </div>
             
+            <canvas class="editor__canvas-outside"></canvas>
+            <div class="editor__canvas-text">
+              <div id="PosX"></div>
+              <div id="PosY"></div>
+            </div>
           </div>
+
+
           <button class="editor-mobile__openBtn">Abrir editor3D</button>
           
           <div class="editor-mobile__UI">
@@ -82,6 +132,7 @@
                     <button id="estadarGraficsToolBtn">Graficos Estadar</button>
                   </li>
                   <li class="editor-mobile__toolbar-item">
+                    
                     <button id="textToolBtn">Texto</button>
                   </li>
                   <li class="editor-mobile__toolbar-item">

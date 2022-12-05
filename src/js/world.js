@@ -12,30 +12,29 @@ import BoxModel from "./boxModel";
 export class World {
 
   constructor() {
-    this.scene = new Scene();
+    
     this.boxModel;
   }
   
   async init() {
 
+
     const URL_LOADER = './Models/cube.glb'
     const INITIAL_MTL = new MeshPhongMaterial( { color: 0xff0000 , shininess: 10 } );
     const MESH_ID = "Cube";
 
-    const boxModel= new BoxModel();
+    const scene = new Scene();
 
-    this.boxModel = await boxModel.loadModel(URL_LOADER, INITIAL_MTL, MESH_ID);
+    this.boxModel = new BoxModel();
 
-    console.log(this.boxModel);
+    this.boxModel.model = await this.boxModel.loadModel(URL_LOADER, INITIAL_MTL, MESH_ID);
 
-    this.scene.add( lightAmb );
-    this.scene.add( this.boxModel)
 
-    console.log(this,this.boxModel)
-    console.log(this.scene)
+    scene.add( lightAmb );
+    scene.add( this.boxModel.model)
 
     const bgColor = new Color( 0xA0A0A0 );
-    this.scene.background = bgColor;
+    scene.background = bgColor;
 
     
 
@@ -49,17 +48,17 @@ export class World {
       
     }
 
-    checkWindowResize(this.scene);
-    animate(this.scene)
+    checkWindowResize();
+    animate()
     
 
-    function animate(scene) {
-      //requestAnimationFrame(animate)
+    function animate() {
+      requestAnimationFrame(animate)
       controls.update()
-      render(scene)
+      render();
     }
 
-    function render(scene){
+    function render(){
       renderer.render(scene, camera);
     }
   

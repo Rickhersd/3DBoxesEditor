@@ -15,17 +15,15 @@ body {
     color: library.$color__font-gray;
 }
 
-
+.hide {
+    display: none;
+}
 
 #container{
     width: 800px;
     height: 600px;
     display: inline-block;
 }
-
-
-
-
 
 @media only screen and (max-width: 600px) {
     
@@ -42,4 +40,8 @@ body {
 
 .show-3DEditorMobile{
     translate: 0% 0px !important;
+}
+
+.drag-over{
+    border: 1px solid red;
 }

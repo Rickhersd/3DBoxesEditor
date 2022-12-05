@@ -15,6 +15,17 @@
       font-weight: 600;
       padding: 1rem 0rem;
     }
+
+    &-list{
+      margin: 0px;
+      padding: 0;
+    }
+
+    &-item{
+      list-style: none;
+      border-bottom: 1px solid black;
+      padding: 1rem 0rem;
+    }
   }
   
   &__container{
@@ -27,7 +38,28 @@
   }
 
   &__canvas{
-    grid-area: canvas;
+
+    &-cont{
+      grid-area: canvas;
+      
+    }
+
+    &-inside{
+      border: 1px solid black;
+      width: inherit;
+      height: inherit;
+
+      &-cont{
+        position: relative;
+        width: 800px;  
+        height: 600px;
+      }
+    }
+    
+    &-text{
+      background-color: red;
+
+    }
   }
 
 
@@ -45,6 +77,16 @@
       padding: 1rem 0rem;
     }
   }
+}
+
+.textAdded{
+
+  position: absolute;
+
+  &:hover{
+    border: 1px solid black;
+  }
+
 }
 
 @media only screen and (max-width: 600px) {

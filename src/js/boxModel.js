@@ -3,6 +3,9 @@ import { MeshPhongMaterial } from 'three';
 
 export default class BoxModel{
 
+  constructor(){
+    this.model;
+  };
 
   async loadModel(url, INITIAL_MTL, MESH_ID){
 
@@ -17,7 +20,6 @@ export default class BoxModel{
     )
 
     let boxModel = setUpModel(boxModelData); 
-    console.log(boxModel)
 
     return boxModel;
 
@@ -47,5 +49,16 @@ export default class BoxModel{
         }
       });
     }
+  }
+
+  setMaterial(parent, type, mtl) {
+    console.log('hola')
+    parent.traverse((o) => {
+     if (o.isMesh && o.nameID != null) {
+       if (o.nameID == type) {
+        o.material = mtl;
+      }
+     }
+   });
   }
 }
