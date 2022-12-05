@@ -19,7 +19,7 @@ export class World {
   async init() {
 
 
-    const URL_LOADER = './Models/cube.glb'
+    const URL_LOADER = './Models/cube2.glb'
     const INITIAL_MTL = new MeshPhongMaterial( { color: 0xff0000 , shininess: 10 } );
     const MESH_ID = "Cube";
 

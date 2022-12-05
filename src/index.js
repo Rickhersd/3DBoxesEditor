@@ -2,6 +2,7 @@ import "./style.scss";
 import ColorTool from './js/colorTool.js';
 
 import { MeshPhongMaterial } from "three";
+import { MeshStandardMaterial } from 'three';
 import { TextureLoader } from "three";
 import { RepeatWrapping } from "three";
 
@@ -39,16 +40,21 @@ colorTool.setToogleBtn(colorToolBtn);
 const canvas = document.getElementById('editor-insideBox');
 const canvasCont = document.getElementById('editor-insideBoxCont')
 
+
+
 if (canvas.getContext) {
   const ctx = canvas.getContext('2d');
   const img = new Image();
+  img.src = "Cuadricula.jpg";
   img.onload = () => {
-    ctx.drawImage(img, 0, 0, 200, 133);
-  };
-  img.src = 'muestra.jpg';
+    ctx.drawImage(img, 0, 0); 
+  }
+  
 } else {
   // canvas-unsupported code here
 }
+
+1
 
 const addtext = document.getElementById("add-text");
 const drawText = document.getElementById("draw-text");
@@ -111,22 +117,23 @@ function render(){
 
   const textureMap = {
     texture: canvas.toDataURL('image/jpeg'),
-    size: [2,2,2],
+    size: [5,5,5],
     shininess: 0
   }
   
   let txt = new TextureLoader().load(textureMap.texture);
+  txt.flipY = false;    
+  //txt.repeat.set( textureMap.size[0], textureMap.size[1], textureMap.size[2]);
+ // txt.wrapS = RepeatWrapping;
+ // txt.wrapT = RepeatWrapping;
       
-  txt.repeat.set( textureMap.size[0], textureMap.size[1], textureMap.size[2]);
-  txt.wrapS = RepeatWrapping;
-  txt.wrapT = RepeatWrapping;
-      
-  let new_mtl = new MeshPhongMaterial( {
+  let new_mtl = new MeshStandardMaterial( {
     map: txt,
-    shininess: textureMap.shininess ? textureMap.shininess : 10
   }); 
+  
+  console.log(new_mtl)
 
-  world.boxModel.setMaterial(world.boxModel.model, "Cube", new_mtl);
+  world.boxModel.setMaterial(world.boxModel.model, new_mtl);
   console.log("renderizado")
 }
 

@@ -1,6 +1,7 @@
 import { GLTFLoader } from 'three/src/loaders/GLTFLoader.js';
 import { MeshPhongMaterial } from 'three';
 
+
 export default class BoxModel{
 
   constructor(){
@@ -18,8 +19,10 @@ export default class BoxModel{
         console.log(error);
       }
     )
+    
 
     let boxModel = setUpModel(boxModelData); 
+    console.log(boxModel)
 
     return boxModel;
 
@@ -34,7 +37,7 @@ export default class BoxModel{
         }
       })
 
-      initColor(model, MESH_ID, INITIAL_MTL);
+      //initColor(model, MESH_ID, INITIAL_MTL);
       return model;
     }
     
@@ -51,13 +54,11 @@ export default class BoxModel{
     }
   }
 
-  setMaterial(parent, type, mtl) {
+  setMaterial(parent, mtl) {
     console.log('hola')
     parent.traverse((o) => {
-     if (o.isMesh && o.nameID != null) {
-       if (o.nameID == type) {
-        o.material = mtl;
-      }
+     if (o.isMesh && o.name != null) {  
+      o.material = mtl;
      }
    });
   }
