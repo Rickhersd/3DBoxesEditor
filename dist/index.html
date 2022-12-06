@@ -79,10 +79,33 @@
                   </select>
                   <input type="checkbox" id="textTool-checkbox-italic" name="isItalic" value="true">
                   <label for="isItalic"> Italic</label><br>
+
+                  <div class="textTool__colorPicker">
+
+                    <button class="textTool__colorPicker"></button>
+
+                    <div class="textTool__colorPicker-list-cont">
+                      <ul>
+                        <li></li>
+
+
+                      </ul>
+                    </div> 
+                    <div class="textTool__colorPicker-selecter">
+                      <canvas class="textTool__colorPicker-canvas"></canvas>
+                      <canvas class="textTool__colorPicker-HUE"></canvas>
+                      <div>
+                        
+                      </div>
+                    </div>
+                
+                  </div>
+
                 </form>
                 <button id="add-text">Anadir texto</button>
                 <button id="draw-text">Dibujar texto</button>
                 <button id="render-box">Renderizar</button>
+                <button id="anim">Animar</button>
               </li>
 
               <li class="editor__designTools-item">Ajuste de color</li>

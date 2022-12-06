@@ -15,9 +15,9 @@ const movilUI = new MovilUI();
 
 async function main(){
 
-    await world.init();
+  await world.init();
     
-    world.start();
+  world.start();
 }
 
 main().catch((err) => {

@@ -1,11 +1,15 @@
 import { GLTFLoader } from 'three/src/loaders/GLTFLoader.js';
-import { MeshPhongMaterial } from 'three';
+import { AnimationClip, AnimationMixer, LoopPingPong } from 'three';
 
 
 export default class BoxModel{
 
   constructor(){
+    this.data;
     this.model;
+    this.animation;
+    this.animationMixer;
+    this.isUnfolded = true;
   };
 
   async loadModel(url, INITIAL_MTL, MESH_ID){
@@ -19,16 +23,17 @@ export default class BoxModel{
         console.log(error);
       }
     )
-    
+             
+    this.data = boxModelData;
+    this.model = setUpModel();
 
-    let boxModel = setUpModel(boxModelData); 
-    console.log(boxModel)
+    const animationGen = setUpAnimation();
 
-    return boxModel;
+    this.animation = animationGen.next().value;
+    this.animationMixer = animationGen.next().value;
 
-    function setUpModel(modelData){
-      const model = modelData.scene; 
-
+    function  setUpModel(){
+      const model = boxModelData.scene; 
       model.traverse(function (child) {
         if ((child.isMesh)) {
           const m = child;
@@ -36,26 +41,42 @@ export default class BoxModel{
           m.castShadow = true
         }
       })
-
-      //initColor(model, MESH_ID, INITIAL_MTL);
       return model;
     }
-    
 
-    function initColor(parent, type, mtl) {
-      parent.traverse((o) => {
-        if (o.isMesh) {
-          if (o.name.includes(type)) {
-            o.material = mtl;
-            o.nameID = type;
-          }
-        }
-      });
+    function* setUpAnimation(){
+      const CLIP_NAME = "ArmatureAction";
+      const CLIPS_LIST = boxModelData.animations;
+      const ROOT = boxModelData.scene;
+  
+      const clip = AnimationClip.findByName( CLIPS_LIST, CLIP_NAME);
+      const mixer = new AnimationMixer(ROOT);
+      
+      let animation = mixer.clipAction(clip);
+      animation.setLoop(LoopPingPong);
+
+      mixer.addEventListener( 'loop', () => { 
+        animation.paused = true;
+      } ); 
+
+      yield animation;
+      yield mixer;
     }
+  }
+  
+  toogleFold() {
+    if(this.animation.isRunning() == true){
+      this.animation.timeScale *= -1; 
+      return;
+    } 
+    if (this.animation.paused == true){
+      this.animation.paused = false;
+      return;
+    } 
+    this.animation.play(); 
   }
 
   setMaterial(parent, mtl) {
-    console.log('hola')
     parent.traverse((o) => {
      if (o.isMesh && o.name != null) {  
       o.material = mtl;
