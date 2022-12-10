@@ -1,7 +1,6 @@
 import { GLTFLoader } from 'three/src/loaders/GLTFLoader.js';
 import { AnimationClip, AnimationMixer, LoopPingPong } from 'three';
 
-
 export default class BoxModel{
 
   constructor(){

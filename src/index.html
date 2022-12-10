@@ -39,7 +39,7 @@
             <p>Diseña tu propia caja. Puedes subir tus propias imágenes, usar íconos o patrones de nuestra biblioteca. Te recomendamos revisar los Tutoriales para cumplir con los requisitos de calidad de imagen.
 
               Antes de agregar al carro de compras revisa tu diseño en la vista 3D para asegurarte de que sea como tú quieres. Puedes hacer doble click en la caja para verla extendida o armada, también puedes arrastrar el modelo 3D con el mouse para revisar desde otra perspectiva.</p>
-            </header>
+        </header>
         <div class="editor__container">
 
           <div class="editor__designTools">
@@ -61,40 +61,49 @@
                   </select>
                   <label for="font-size">Tamano de fuente:</label>
                   <select name="font-size" id="textTool-select-size">
-                      <option value="1px">1px</option>
-                      <option value="2px">2px</option>
-                      <option value="3px">3px</option>
-                      <option value="4px">4px</option>
-                      <option value="6px">6px</option>
-                      <option value="8px">8px</option>
-                      <option value="10px">10px</option>
-                      <option value="12px">12px</option>
-                      <option value="16px">16px</option>
-                      <option value="18px">18px</option>
-                      <option value="20px">20px</option>
-                      <option value="24px">24px</option>
-                      <option value="28px">28px</option>
-                      <option value="32px">32px</option>
-                      <option value="36px">36px</option>
+                    <option value="30px">1px</option>
+                    <option value="2px">2px</option>
+                    <option value="3px">3px</option>
+                    <option value="4px">4px</option>
+                    <option value="6px">6px</option>
+                    <option value="8px">8px</option>
+                    <option value="10px">10px</option>
+                    <option value="12px">12px</option>
+                    <option value="16px">16px</option>
+                    <option value="18px">18px</option>
+                    <option value="20px">20px</option>
+                    <option value="24px">24px</option>
+                    <option value="28px">28px</option>
+                    <option value="32px">32px</option>
+                    <option value="36px">36px</option>
                   </select>
                   <input type="checkbox" id="textTool-checkbox-italic" name="isItalic" value="true">
                   <label for="isItalic"> Italic</label><br>
 
-                  <div class="textTool__colorPicker">
+                  <div class="colorPicker">
 
-                    <button class="textTool__colorPicker"></button>
+                    <button type="button" id="colorPicker-btn" class="colorPicker__btn">
+                      <span></span>
+                    </button>
 
-                    <div class="textTool__colorPicker-list-cont">
+                    <div class="colorPicker__listCont">
                       <ul>
                         <li></li>
 
 
                       </ul>
                     </div> 
-                    <div class="textTool__colorPicker-selecter">
-                      <canvas class="textTool__colorPicker-canvas"></canvas>
-                      <canvas class="textTool__colorPicker-HUE"></canvas>
-                      <div>
+                    <div id="colorPicker-selecter" class="colorPicker__selecter">
+                      <div class="colorPicker__selecter-picker">
+                        <canvas id="colorPicker-colorPicker" class="colorPicker__selecter-picker-canvas" width="170px" height="170px"></canvas>
+                        <div class="colorPicker__selecter-picker-indicator"></div>
+                      </div>
+                    
+                      <div class="colorPicker__selecter-slider">
+                        <canvas id="colorPicker-slider" class="colorPicker__selecter-slider-canvas" width="14px" height="170x"></canvas>
+                        <div class="colorPicker__selecter-slider-indicador"> </div>
+                      </div>
+                      <div class="colorPicker__selecter-info">
                         
                       </div>
                     </div>
@@ -116,7 +125,7 @@
           <div id="container" class="editor__canvas-cont">
 
             <div id="editor-insideBoxCont" class="editor__canvas-inside-cont">
-              <canvas id="editor-insideBox" width="471" height="360" class="editor__canvas-inside" >
+              <canvas id="editor-insideBox" width="540" height="540" class="editor__canvas-inside" >
               
               </canvas>
             </div>
@@ -170,6 +179,11 @@
 
           <div class="editor__orderDetails">
             <div class="editor__orderDetails-header">Detalles del pedido</div>
+            <div class="outliner">
+              <ul id="outliner" class="outliner__list">
+
+              </ul>
+            </div> 
             <ul class="editor__orderDetails-list">
               <li class="editor__orderDetails-item">Tipo de caja</li>
               <li class="editor__orderDetails-item">175x175</li>

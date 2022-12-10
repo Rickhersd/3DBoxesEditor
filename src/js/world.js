@@ -1,8 +1,6 @@
 import { Scene, Color } from "three";
 import { MeshPhongMaterial } from 'three';
 
-
-
 import camera from "./components/createCamera"
 import lightAmb from "./components/createLights";
 import renderer from "./components/createRenderer";

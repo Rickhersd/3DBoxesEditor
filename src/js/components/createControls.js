@@ -5,8 +5,8 @@ import { OrbitControls } from "three/src/controllers/OrbitControls";
 
 console.log(renderer.domElement)
 const controls = new OrbitControls(camera, renderer.domElement)
-controls.maxPolarAngle = Math.PI / 2;
-controls.minPolarAngle = Math.PI / 3;
+//controls.maxPolarAngle = Math.PI / 2;
+//controls.minPolarAngle = Math.PI / 3;
 controls.maxDistance = 10;
 controls.minDistance = 3;
 controls.enableDamping = true;

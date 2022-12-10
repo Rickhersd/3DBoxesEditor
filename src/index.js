@@ -8,7 +8,12 @@ import { RepeatWrapping } from "three";
 
 import { World } from "./js/world";
 import MovilUI from "./js/movilUI";
-import { TextElement } from "./js/textElement";
+import { Pointer, TextElement } from "./js/textElement";
+import { Outliner } from "./js/outliner";
+import ColorPicker from "./js/colorPicker";
+
+customElements.define("pointer-element", Pointer, { extends: "span" });
+
 
 const world = new World();
 const movilUI = new MovilUI();
@@ -45,9 +50,9 @@ const canvasCont = document.getElementById('editor-insideBoxCont')
 if (canvas.getContext) {
   const ctx = canvas.getContext('2d');
   const img = new Image();
-  img.src = "Cuadricula.jpg";
+  img.src = "muestra.jpg";
   img.onload = () => {
-    ctx.drawImage(img, 0, 0); 
+    ctx.drawImage(img, 0, 0, 540, 540); 
   }
   
 } else {
@@ -62,6 +67,10 @@ const textInput = document.getElementById("textTool-input-text");
 const familySelect = document.getElementById("textTool-select-family");
 const sizeSelect = document.getElementById("textTool-select-size");
 const italicCheckbox = document.getElementById("textTool-checkbox-italic");
+
+const colorPicker = new ColorPicker();
+colorPicker.init();
+
 let currentFontText;
 let currentFontFamily = familySelect.value;
 let currentFontSize = sizeSelect.value;
@@ -69,7 +78,7 @@ let currentItalic = italicCheckbox.checked;
 
 console.log(currentItalic);
 
-let index = 0;
+let index = 1;
 
 textInput.addEventListener('input', (e) => {
   currentFontText = e.target.value;
@@ -85,7 +94,7 @@ sizeSelect.addEventListener('input', (e) => {
 
 italicCheckbox.addEventListener('change', (e) =>{
   currentItalic = e.target.checked;
-})
+});
 
 let textElement;
 
@@ -93,19 +102,37 @@ drawText.addEventListener('click', () => {
   textElement.drawTextF();
 }) 
 
+
+
+
+
+const outliner = new Outliner();
+
+
 addtext.addEventListener('click', () => {
-  textElement =  new TextElement(
+
+  let color = colorPicker.getColor();
+
+  textElement = new TextElement(
     index, 
     currentFontText, 
     currentFontSize, 
     currentFontFamily,
     currentItalic, 
+    color,
     canvas
     );
-  canvasCont.appendChild(textElement.createElement(index));
-  index++;
+  canvasCont.appendChild(textElement.element);
+  outliner.addItem(textElement);
+  console.log(outliner);
+
   textElement.init(canvasCont);
 });
+
+
+
+
+
 
 const renderBtn = document.getElementById('render-box');
 
@@ -122,7 +149,7 @@ function render(){
   }
   
   let txt = new TextureLoader().load(textureMap.texture);
-  txt.flipY = false;    
+  txt.flipY = true;    
   //txt.repeat.set( textureMap.size[0], textureMap.size[1], textureMap.size[2]);
  // txt.wrapS = RepeatWrapping;
  // txt.wrapT = RepeatWrapping;

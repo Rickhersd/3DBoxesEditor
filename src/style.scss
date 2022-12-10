@@ -5,13 +5,13 @@
 @import './sass/editor.scss';
 @import './sass/main.scss';
 @import './sass/editorMobile.scss';
-
-
+@import './sass/textTool.scss';
+@import './sass/outliner.scss';
 
 body { 
     margin: 0px;
     padding: 0px; 
-    box-sizing: content-box; 
+    box-sizing: border-box; 
     color: library.$color__font-gray;
 }
 
@@ -19,11 +19,17 @@ body {
     display: none;
 }
 
+.show{
+    display: grid;
+}
+
 #container{
     width: 800px;
     height: 600px;
     display: inline-block;
 }
+
+
 
 @media only screen and (max-width: 600px) {
     
