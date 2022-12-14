@@ -1,0 +1,76 @@
+.renderer{
+
+  &__3DEditor{
+
+    &-cont{
+      position: absolute;
+    }
+  }
+
+  &__insideEditor{
+    
+    &-cont{
+      position: absolute;
+    }
+  }
+
+  &__outsideEditor{
+    
+    &-cont{
+      position: absolute;
+    }
+
+  }
+  
+  &__buttons{
+    position: absolute;
+    bottom: 0px;
+    width: calc(100% - 300px);
+    display: flex;
+    flex: 1;
+    background-color: rgb(63, 63, 63);
+    
+    &-btn{
+      background-color: rgb(63, 63, 63);
+      cursor: pointer;
+      color: white;
+      padding: 0.5rem 0px;
+      display: block;
+      width: 100%;
+      border: none;
+
+      &:hover{
+        background-color:  rgb(33, 33, 33);;
+      }
+    }
+
+    
+  }    
+}
+
+/*
+&__canvas{
+
+  &-cont{
+    position: absolute;
+    //overflow: hidden; 
+  }
+
+  &-inside{
+    border: 1px solid black;
+    width: 540px;
+    height: 540px;
+
+    &-cont{
+    
+    }
+  }
+
+  &-outside{
+    
+  }
+  
+  &-text{
+    background-color: red;
+  }
+}*/

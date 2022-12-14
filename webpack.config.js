@@ -25,9 +25,12 @@ module.exports = {
           "css-loader",
           "sass-loader",
         ]
-      }
+      },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+      },
     ]
-
   },
   devtool: 'inline-source-map',
   plugins: [

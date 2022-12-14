@@ -11,16 +11,16 @@ export default class MovilUI{
 
   setExitBtn(btn){
     this.exitBtn = btn;
-    this.exitBtn.addEventListener('click', () => {
-      this.#hideUI();
-    });
+    //this.exitBtn.addEventListener('click', () => {
+      //this.#hideUI();
+    //});
   };
 
   setOpenBtn(btn){
     this.openBtn = btn;
-    this.openBtn.addEventListener('click', () => {
-      this.#displayUI();
-    });
+    //this.openBtn.addEventListener('click', () => {
+      //this.#displayUI();
+    //});
   };
 
   #displayUI(){

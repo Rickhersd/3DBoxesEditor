@@ -9,27 +9,33 @@ class Element{
     this.right;
     this.bottom;
     this.left;
+    this.parent;
 
     this.pointers = createPointers();
+
 
     function createPointers(){
 
       let pointers = {
         topLeft: {
-          el:document.createElement('span', {is: 'pointer-element'}),
+          el:document.createElement('pointer-el', {is: 'pointer-el'}),
           cords: "top: 0px; left: 0px; translate: -50% -50%",
+          type: 'topLeft',
         },
         topRight:{
-          el:document.createElement('span', {is: 'pointer-element'}),
+          el:document.createElement('pointer-el', {is: 'pointer-el'}),
           cords: "top: 0px; right: 0px; translate: 50% -50%",
+          type: 'topRight'
         },
         bottomLeft: {
-          el:document.createElement('span', {is: 'pointer-element'}),
+          el:document.createElement('pointer-el', {is: 'pointer-el'}),
           cords: "bottom: 0px; left: 0px; translate: -50% 50%",
+          type: 'bottomLeft'
         },
         bottomRight: {
-          el:document.createElement('span', {is: 'pointer-element'}),
+          el:document.createElement('pointer-el', {is: 'pointer-el'}),
           cords: "bottom: 0px; right: 0px; translate: 50% 50%",
+          type: 'bottomRight'
         }
       };
 
@@ -38,6 +44,9 @@ class Element{
       for(let pointer in pointers){
         let span = pointers[pointer]["el"];
         span.setAttribute('style', pointers[pointer]["cords"]);
+        span.setAttribute('pointer-type', pointers[pointer]["type"]);
+        span.setAttribute('class', 'pointer');
+
         fragment.append(span);
       }
 
@@ -46,83 +55,124 @@ class Element{
   }
 }
 
-export class Pointer extends HTMLSpanElement {
+export class Pointer extends HTMLElement {
 
   constructor(){
     self = super();
 
-    this.self = self;
-    this.classParent;
-    console.log(this.self);
-
-    self.classList.add('pointer');
-
     this.onClick = false;
+    this.type;
+    this.refElement = self;
+  }
+
+  selectDir(type){
+    let dir = {
+      topLeft: {
+        top: (p) => {return 'initial';},
+        left: (p) => {return 'initial';},
+        bottom: (p) => { return `${538 - remPx(p.style.top) - p.clientHeight}px`;},
+        right: (p) => {return `${538 - remPx(p.style.left) - p.clientWidth}px`;}
+      },
+      topRight: {
+        top: (p) => {return 'initial';},
+        left: (p) => {return p.style.left;},
+        bottom: (p) => { return `${538 - remPx(p.style.top) - p.clientHeight}px`;},
+        right: (p) => {return 'initial';}
+      },
+      bottomLeft: {
+        top: (p) => {return p.style.top},
+        left: (p) => {return 'initial';},
+        bottom: (p) => {return 'initial';},
+        right: (p) => {return `${538 - remPx(p.style.left) - p.clientWidth}px`;}
+      },
+      bottomRight:{
+        top: (p) => {return p.style.top;},
+        left: (p) => {return p.style.left;},
+        bottom: (p) => {return 'initial';},
+        right: (p) => {return 'initial';}
+      }
+    }
+
+    return dir[type];
+  }
+
+  expand(dir, difX, difY, initialW, initialH){
+    let parent = this.refElement.parentElement;
+
+    let left = parent.style.left;
+    let top = parent.style.top;
+
+    parent.style.right = dir.right(parent);
+    parent.style.bottom = dir.bottom(parent);
+    parent.style.top = dir.top(parent);
+    parent.style.left = dir.left(parent);
+
+    parent.style.width = `${initialW + difX}px`;
+    parent.style.height = `${initialH + difY}px`;
+
+    left = `${538 - remPx(parent.style.right) - parent.clientWidth}px`;
+    top = `${538 - remPx(parent.style.bottom) - parent.clientHeight}px`;
+
+    parent.style.top = top;
+    parent.style.left = left;
+    parent.style.right = 'initial';
+    parent.style.bottom = 'initial';
+  }
+
+  connectedCallback(){
+
+    this.type = this.refElement.getAttribute('pointer-type');
 
     let initialX;
     let initialY;
+    let initialParentW;
+    let initialParentH;
 
-    self.addEventListener('mousedown', (e) => {
+    let parent = this.refElement.parentElement;
+
+    this.refElement.addEventListener('mousedown', (e) => {
       initialX = e.x;
       initialY = e.y;
+
+      let rect = parent.getBoundingClientRect();
+      initialParentH = rect.height;
+      initialParentW = rect.width;
+
       this.onClick = true;
     });
 
     window.addEventListener('mousemove', (e) => {
       e.preventDefault();
+      if(this.onClick != true) return;       
 
       let difX = e.x - initialX;
       let difY = e.y - initialY;
 
-      if(this.onClick != true) return;       
+      if (this.type == "topLeft") {
+        difX = -difX;
+        difY = -difY;
+        console.log('hola')
+      }
+      if (this.type == "topRight"){
+        difY = -difY;
+      }
+      if (this.type == "bottomLeft"){
+        difX = -difX;
+      }
 
-      let currentX = this.currentPosX.replace('px', '');
-      let currentY = this.currentPosY.replace('px', '');
+      let dir = this.selectDir(this.type);
 
-      let posx = parseInt(currentX) + difX;
-      let posy = parseInt(currentY) + difY;
 
-      //self .setAttribute('style', `top: ${posy}px; left: ${posx}px`)
+      this.expand(dir, difX, difY, initialParentW, initialParentH );
+
     })
 
-    self.addEventListener('mouseup', (e) => {
+    this.refElement.addEventListener('mouseup', (e) => {
       e.preventDefault();
-      this.currentPosY = self.style.top;
-      this.currentPosX = self.style.left;
 
-      this.onClick = false
+      this.onClick = false;
     });
-
-    self.addEventListener('click', (e) => {
-      this.expand();
-    })
-
-
-  }
-
-  expand(){
-    let parent = this.self.parentElement;
-
-    let top = parent.style.top; 
-    let left = parent.style.left;
-
-    let right = `${538 - parent.clientWidth - remPx(left)}px`;
-    let bottom = `${538 - parent.clientHeight - remPx(top)}px`;
-
-    parent.style.top = 'initial';
-    parent.style.left = 'initial';
     
-    parent.style.right = right;
-    parent.style.bottom = bottom;
-
-    parent.style.width = `${parent.clientWidth + 3}px`;
-    parent.style.height = `${parent.clientHeight + 3}px`;
-
-    parent.style.top = `${538 - parent.clientHeight - remPx(bottom)}px`;;
-    parent.style.left = `${538 - parent.clientWidth - remPx(right)}px`;
-    
-    parent.style.right = 'initial';
-    parent.style.bottom = 'initial';
   }
 }
 
@@ -152,17 +202,14 @@ export class TextElement extends Element{
 
     textEl.append(this.pointers);
     this.element = textEl;
-
-
   }
   
   init(canvasCont){
-    const item = document.querySelector('.textAdded');
 
     let initialX;
     let initialY;
 
-    item.addEventListener('mousedown', (e) => {
+    this.element.addEventListener('mousedown', (e) => {
       initialX = e.x;
       initialY = e.y;
       this.onClick = true;
@@ -182,58 +229,43 @@ export class TextElement extends Element{
       let posx = addPx(parseInt(currentX) + difX);
       let posy = addPx(parseInt(currentY) + difY);
 
-      item.style.top = posy;
-      item.style.left = posx;
+      //item.style.top = posy;
+      //item.style.left = posx;
     })
 
     canvasCont.addEventListener('mouseleave', (e) => {
-      this.currentPosY = item.style.top;
-      this.currentPosX = item.style.left;
+      this.currentPosY = this.element.style.top;
+      this.currentPosX = this.element.style.left;
 
       this.onClick = false
     });
 
-    item.addEventListener('mouseup', (e) => {
+    this.element.addEventListener('mouseup', (e) => {
       e.preventDefault();
-      this.currentPosY = item.style.top;
-      this.currentPosX = item.style.left;
+  
+      this.top = this.element.style.top;
+      this.left = this.element.style.left;
 
-      this.top = item.style.top;
-      this.left = item.style.left;
-
-      this.right = `${canvasCont.clientWidth - item.clientWidth - remPx(this.left)}px`;
-      this.bottom = `${canvasCont.clientHeight - item.clientHeight - remPx(this.top)}px`;
+      this.right = `${canvasCont.clientWidth - this.element.clientWidth - remPx(this.left)}px`;
+      this.bottom = `${canvasCont.clientHeight - this.element.clientHeight - remPx(this.top)}px`;
 
       this.onClick = false
     });
 
-  }
-
-  drop(e) {
-    e.target.classList.remove('drag-over');
-
-    const id = e.dataTransfer.getData('text/plain');
-    const draggable = document.getElementById(id);
-    console.log(e)
-
-    let posX = e.offsetX;
-    let posY = e.offsetY;
-
-    this.currentPosX = posX;
-
-    console.log(draggable)
-    this.currentPosY = posY;
-    
-    draggable.setAttribute('style', `top: ${posY}px; left: ${posX}px`)
-
-    draggable.classList.remove('hide');
   }
   
   drawTextF(){
     let ctx = this.canvas.getContext('2d');
+    ctx.textBaseline = 'top';
     ctx.font = `${this.fontStyle} ${this.fontSize} ${this.fontFamily}`;
-    console.log(`${this.fontStyle} ${this.fontSize} ${this.fontFamily}`)
-    ctx.fillText(this.text, this.currentPosX, this.currentPosY);
+
+    let text = "hola como esta todo </br> yo estyo muy bien"
+
+    console.log( `${this.fontStyle} ${this.fontSize} ${this.fontFamily}`)
+    console.log(this.text + " " + this.element.style.left + "" + this.element.style.top)
+
+    ctx.fillText(text, remPx(this.element.style.left), remPx(this.element.style.top));
+    console.log(ctx.measureText(text))
   }
 }
 

@@ -1,87 +1,124 @@
 @use './library.scss';
 
 .editor{
-
-  &__designTools{
-    grid-area: designTools;
-    border: 1px solid library.$color__light-gray;
-    border-radius: 20px;
-    overflow: hidden;
-
-    &-header{
-      text-align: center;
-      color: white;
-      background-color: library.$color__orange;
-      font-weight: 600;
-      padding: 1rem 0rem;
-    }
-
-    &-list{
-      margin: 0px;
-      padding: 0;
-    }
-
-    &-item{
-      list-style: none;
-      border-bottom: 1px solid black;
-      padding: 1rem 0rem;
-    }
-  }
+  width: 300px;
+  height: calc(100vh - 60px);
+  display: grid;
+  grid-template: 
+  'toolbar content'
+  'outliner outliner';
+  grid-template-columns: 70px 230px;
+  grid-template-rows: auto 250px;
+  background-color: rgb(63, 63, 63);
+  border-right: 1px solid rgb(200, 200, 200);
+  box-sizing: border-box;
   
   &__container{
-    width: 100%;
-    display: grid;
-    grid-template-areas: 
-    "designTools canvas orderDetails";
-    grid-template-columns: 180px auto 180px;  
+    grid-area: content;
     gap: 1rem;
+    width: calc(230px - 1rem);
+    padding: 0rem 1rem;
   }
 
-  &__canvas{
-
-    &-cont{
-      grid-area: canvas;
-      //overflow: hidden;
-      
+  &__toolbar{
+    grid-area: toolbar;
+    width: 70px;
+    border-right: 1px solid gray;
+  
+    ul{
+      list-style: none;
+      padding: 0px;
+      margin: 0px;
     }
-
-    &-inside{
-      border: 1px solid black;
-      width: 540px;
-      height: 540px;
-
-      &-cont{
-        position: relative;
-        width: 540px;  
-        height: 540px;
+  
+    &-item{
+      position: relative;
+  
+      &::after{
+        content: "";
+        background-color: gray;
+        height: 1px;
+        width: 1.5rem;
+        position: absolute;
+        bottom: 0px;
+        left: 50%;
+        translate: -50% 0px;
       }
+      
+      &-btn{
+        width: 100%;
+        height: 70px;
+        font-size: 0.7rem;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        color: white;
+  
+        & path{
+          fill: rgb(199, 199, 199);
+        }
+      }
+  
+      &-svg{
+        width: 25px;
+        height: 25px;
+      } 
     }
+  } 
+
+  &__outliner{
+    grid-area: outliner;
+    border-top: 1px solid gray;
+    height: 250px;
+    width: 100%;
+    box-sizing: border-box;
     
-    &-text{
-      background-color: red;
-
+    &-list{
+      padding: 0px;
+      margin: 0px;
     }
-  }
-
-
-  &__orderDetails{
-    grid-area: orderDetails;
-    border: 1px solid library.$color__light-gray;
-    border-radius: 20px;
-    overflow: hidden;
-
-    &-header{
-      text-align: center;
-      color: white;
-      background-color: library.$color__orange;
-      font-weight: 600;
-      padding: 1rem 0rem;
-    }
+  
+    &-item{
+      width: 100%;
+      border: 1px solid gray;
+      box-sizing: border-box;
+      list-style: none;
+      display: grid;
+      grid-template: 'id input eye';
+      grid-template-columns: 24px auto 24px;
+      padding: 0.2rem;
+    
+      &-eyeBtn{
+        grid-area: eye;
+        display: inline-block;
+        padding: 0.1rem;
+        height: 24px;
+        width: 24px;
+        fill: none;
+      }
+  
+      &-input{
+        grid-area: input;
+        width: 100%;
+        box-sizing: border-box;
+        
+        &:read-only{
+          cursor:default;
+          border: none
+        }
+  
+        &:read-only:focus-visible{
+          cursor:default;
+          border: none;
+          outline: none;
+        }
+      }
+    }  
   }
 }
 
-.textAdded{
 
+.textAdded{
   position: absolute;
   width: 170px;
   height: 170px;
@@ -90,32 +127,29 @@
   box-sizing:border-box;
   border: 1px solid black;
 
-
   &:hover{
     border: 1px solid black;
   }
-
 
   &:focus{
     
     outline: none;
   }
-
-
 }
 
 .pointer{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: red;
   position: absolute;
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  background-color: blue;
-
-  &:hover{
-    background-color: red;
-
-  }
 }
+
+#container{
+  grid-area: canvas;
+}
+
 @media only screen and (max-width: 600px) {
     
   .editor{

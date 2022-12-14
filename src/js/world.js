@@ -45,8 +45,7 @@ export class World {
       }, false); 
     }
 
-    const anim = document.getElementById('anim');
-    anim.addEventListener('click', () => {
+    MovilUI.CanvasCont.addEventListener('dblclick', () => {
       this.boxModel.toogleFold();
     })
     

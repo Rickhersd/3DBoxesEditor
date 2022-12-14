@@ -1,22 +1,18 @@
 import "./style.scss";
 import ColorTool from './js/colorTool.js';
 
-import { MeshPhongMaterial } from "three";
-import { MeshStandardMaterial } from 'three';
-import { TextureLoader } from "three";
-import { RepeatWrapping } from "three";
-
 import { World } from "./js/world";
 import MovilUI from "./js/movilUI";
 import { Pointer, TextElement } from "./js/textElement";
 import { Outliner } from "./js/outliner";
-import ColorPicker from "./js/colorPicker";
-
-customElements.define("pointer-element", Pointer, { extends: "span" });
-
+import { TextTool } from "./js/textTool";
+import { ColorPicker } from "./js/colorPicker";
 
 const world = new World();
 const movilUI = new MovilUI();
+
+const textTool = new TextTool();
+
 
 async function main(){
 
@@ -26,8 +22,34 @@ async function main(){
 }
 
 main().catch((err) => {
-    console.error(err);
+  console.error(err);
 });
+
+customElements.define('pointer-el', Pointer);
+customElements.define('color-picker', ColorPicker)
+
+const textBtn = document.getElementById("textBtn");
+const imageBtn = document.getElementById("imageBtn");
+
+const cont = document.getElementById('editor-content');
+
+
+textBtn.addEventListener('click', () => {
+  clearHtml();
+  console.log('hola')
+  cont.append(textTool.view);
+})
+
+imageBtn.addEventListener('click', () => {
+  clearHtml();
+  let imageTool = document.createElement('div');
+  imageTool.innerHTML = "aqui van las imagenes"
+  cont.append(imageTool)
+})
+
+function clearHtml(){
+  cont.innerHTML = '';
+}
 
 const openBtn = document.querySelector('.editor-mobile__openBtn');
 const exitBtn = document.querySelector('.editor-mobile__exitBtn');
@@ -45,6 +67,7 @@ colorTool.setToogleBtn(colorToolBtn);
 const canvas = document.getElementById('editor-insideBox');
 const canvasCont = document.getElementById('editor-insideBoxCont')
 
+const prueba = document.getElementById('prueba');
 
 
 if (canvas.getContext) {
@@ -59,7 +82,34 @@ if (canvas.getContext) {
   // canvas-unsupported code here
 }
 
-1
+const renderers = {
+  threeDView: {
+    btn: document.getElementById('renderer-btn-3DView'),
+    cont: document.querySelector('.renderer__3DEditor-cont')
+  },
+  insideView: {
+    btn: document.getElementById('renderer-btn-insideView'),
+    cont: document.querySelector('.renderer__insideEditor-cont')
+  },
+  outsideView:{
+    btn: document.getElementById('renderer-btn-outsideView'),
+    cont: document.querySelector('.renderer__outsideEditor-cont')
+  }
+}
+
+Object.entries(renderers).forEach(([key]) => {
+  let btn = renderers[key]['btn'];
+  btn.addEventListener('click', (e) => {
+    for(let renderer in renderers){
+      btn = renderers[renderer]['btn'];
+      if(btn === e.target ){
+        renderers[renderer]['cont'].style.display = 'block';
+      } else {
+        renderers[renderer]['cont'].style.display = 'none';
+      };
+    };
+  });
+});
 
 const addtext = document.getElementById("add-text");
 const drawText = document.getElementById("draw-text");
@@ -68,15 +118,13 @@ const familySelect = document.getElementById("textTool-select-family");
 const sizeSelect = document.getElementById("textTool-select-size");
 const italicCheckbox = document.getElementById("textTool-checkbox-italic");
 
-const colorPicker = new ColorPicker();
-colorPicker.init();
 
-let currentFontText;
-let currentFontFamily = familySelect.value;
-let currentFontSize = sizeSelect.value;
-let currentItalic = italicCheckbox.checked;
+//let currentFontText;
+//let currentFontFamily = familySelect.value;
+//let currentFontSize = sizeSelect.value;
+//let currentItalic = italicCheckbox.checked;
 
-console.log(currentItalic);
+/*
 
 let index = 1;
 
@@ -102,13 +150,7 @@ drawText.addEventListener('click', () => {
   textElement.drawTextF();
 }) 
 
-
-
-
-
 const outliner = new Outliner();
-
-
 addtext.addEventListener('click', () => {
 
   let color = colorPicker.getColor();
@@ -128,11 +170,6 @@ addtext.addEventListener('click', () => {
 
   textElement.init(canvasCont);
 });
-
-
-
-
-
 
 const renderBtn = document.getElementById('render-box');
 
@@ -164,3 +201,4 @@ function render(){
   console.log("renderizado")
 }
 
+*/

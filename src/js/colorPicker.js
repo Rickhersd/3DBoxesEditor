@@ -1,22 +1,27 @@
-export default class ColorPicker {
+import html from '../views/colorPicker.html';
+
+export class ColorPicker extends HTMLElement {
 
   constructor(){
-    this.canvas;
-    this.slider;
-    this.CP_btn
-  }
+    super();
 
-  init(){
+    const shadow = this.attachShadow({mode: 'open'});
+    shadow.innerHTML = html;
 
-    const canvasPicker = new CanvasPicker('colorPicker-colorPicker', "#00ff00");
-    const sliderPicker = new SliderPicker('colorPicker-slider');
+    this.setAttribute('currentColor', '#00ff00');
+    
+    const canvasColorPicker = shadow.getElementById( 'colorPicker-colorPicker', { willReadFrequently: true });
+    const canvasSliderPicker = shadow.getElementById( 'colorPicker-slider', { willReadFrequently: true });
+
+    const CP_btn = shadow.getElementById('colorPicker-btn') 
+
+    const canvasPicker = new CanvasPicker(canvasColorPicker, "#00ff00");
+    const sliderPicker = new SliderPicker(canvasSliderPicker);
 
     const sliderGrafientV = ['#ff0000', '#ffff00', '#00ff00','#00ffff', '#0000ff', '#ff00ff', '#ff0000' ];
 
     const canvasGradientH = [canvasPicker.initialColor,'#fff'];
     const canvasGradientV = ['#fff0', '#000'];
-
-    canvasPicker.setUp();
 
     sliderPicker.addGradient(sliderGrafientV, 'top');
 
@@ -25,19 +30,91 @@ export default class ColorPicker {
   
     sliderPicker.otherColor(canvasPicker);
     canvasPicker.setUpPicker();
+
+    const style = document.createElement('style');
+    style.textContent = `
+
+    .colorPicker__btn{
+      padding: 0.1rem;
+    }
+    
+    .colorPicker__btn > span{
+      width: 15px;
+      height: 15px;
+      background-color: blue;
+      display: block;
+    }
+    
+    .colorPicker__selecter{
+      position: absolute;
+      padding: 1rem;
+      border-radius: 5px;
+      background-color: white;
+      z-index: 5;
+      border: 1px solid rgb(207, 207, 207);
+      -webkit-box-shadow: 0px 0px 14px -6px rgba(0,0,0,1);
+      -moz-box-shadow: 0px 0px 14px -6px rgba(0,0,0,1);
+      box-shadow: 0px 0px 14px -6px rgba(0,0,0,1);
+      display: grid;
+      grid-template-areas: 
+      "picker slider"
+      "info info";
+      grid-template-columns: 170px 14px;
+      grid-template-rows: 170px 20px;
+      gap: 1rem;
+      display: none;
+    }
+        
+    .colorPicker__selecter-picker{
+      grid-area: picker;
+      width: 170px;
+      height: 170px;
+      position: relative;
+    
+    .colorPicker__selecter-canvas{
+      border-radius: 5px;
+      border: 1px solid gray;
+    }
+    
+    .colorPicker__selecter-indicator{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      translate: -50% -50%;
+      border: 1px solid gray
+    }	
+    
+    .colorPicker__selecter-slider{
+      grid-area: slider;
+      width: 14px;
+      height: 170px;
+      position: relative;
+          
+    .colorPicker__selecter-canvas{
+      border-radius: 7px;
+    }
+    
+    .colorPicker__selecter-indicator{
+      position: absolute;
+      width: 40px;
+    }`;
     
     this.selected = canvasPicker.initialColor;
     this.canvas = canvasPicker;
 
-    this.CP_btn = document.getElementById('colorPicker-btn');
-    const CP_selecter = document.getElementById('colorPicker-selecter');
+    const CP_selecter = shadow.getElementById('colorPicker-selecter');
 
-    this.CP_btn.addEventListener('click', () => {
-      CP_selecter.classList.toggle('show');
-      console.log(this.selected)
+    CP_btn.addEventListener('click', () => { 
+      CP_selecter.style.display = CP_selecter.style.display != 'grid' ? 'grid' : 'none';
     });
+
+
+    shadow.append(style);
   }
-  
+
   getColor(){
     return this.canvas.currentColor;
   }
@@ -45,10 +122,10 @@ export default class ColorPicker {
 
 class Picker{
 
-  constructor(CANVAS_ID){
+  constructor(canvas){
     this.currentColor;
     this.indicator;
-    this.canvas = document.getElementById( CANVAS_ID, { willReadFrequently: true });
+    this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d', { willReadFrequently: true });
   }
 
@@ -104,8 +181,8 @@ class Picker{
 
 class SliderPicker extends Picker{
 
-  constructor(CANVAS_ID){
-    super(CANVAS_ID);
+  constructor(canvas){
+    super(canvas);
 
     this.minRag;
     this.maxRag;
@@ -113,10 +190,7 @@ class SliderPicker extends Picker{
 
   otherColor(target){
     this.canvas.addEventListener('click', (e) => {
-      
-      console.log(e);
       let color = this.getColor(e);
-      console.log(color)
       target.changeColor(color);
     });
   }
@@ -127,11 +201,26 @@ class CanvasPicker extends Picker{
   constructor(CANVAS_ID, initialColor){
     super(CANVAS_ID)
     this.initialColor = initialColor;
+
+    this.indicator = this.canvas.nextElementSibling;
+
+    //const CP_btn = document.getElementById('colorPicker-btn');
+
+    this.canvas.addEventListener('click', (e) => {
+      let x = e.offsetX;  
+      let y = e.offsetY; 
+
+      this.indicator.setAttribute('style', `top: ${y}px; left: ${x}px `)
+      
+      let pixel = this.ctx.getImageData(x,y,1,1)['data'];   
+      let rgb = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
+
+      //CP_btn.children[0].style.backgroundColor = rgb;
+
+      this.currentColor = rgb; 
+    });
   }
 
-  setUp(){
-    this.indicator = this.canvas.nextElementSibling;
-  }
 
   changeColor(color){
     const canvasGradientH = [color,'#fff'];
@@ -142,25 +231,6 @@ class CanvasPicker extends Picker{
   }
 
   setUpPicker(target){
-
-    const CP_btn = document.getElementById('colorPicker-btn');
-
-    this.canvas.addEventListener('click', (e) => {
-      let x = e.offsetX;  
-      let y = e.offsetY; 
-
-      console.log(x);
-      console.log(y)
-      this.indicator.setAttribute('style', `top: ${y}px; left: ${x}px `)
-      
-      let pixel = this.ctx.getImageData(x,y,1,1)['data'];   
-      let rgb = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
-
-      CP_btn.children[0].style.backgroundColor = rgb;
-
-      this.currentColor = rgb; 
-    });
+ 
   }
-
-
 }
